@@ -1,0 +1,17 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/dockerfiles
+    docker:
+      - image: docker:18.09.6-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: |
+          docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASS}
+          for docker_dir in */; do
+            tag=$(cat ${docker_dir}/Dockerfile | grep VERSION= | cut -d'=' -f 2)_${CIRCLE_BUILD_NUM}
+            docker build -t ${DOCKERHUB_USER}/${docker_dir}:${tag} ${docker_dir}/
+            docker push ${DOCKERHUB_USER}/${docker_dir}
+          done      
+      
