@@ -1,7 +1,6 @@
 version: 2.1
 jobs:
-  build:
-    branches: { only: master }
+  deploy:
     working_directory: ~/dockerfiles
     docker:
       - image: docker:18.09.6-git
@@ -14,5 +13,17 @@ jobs:
             tag=$(cat ${docker_dir}/Dockerfile | grep VERSION= | cut -d'=' -f 2)_${CIRCLE_BUILD_NUM}
             docker build -t ${DOCKERHUB_USER}/${docker_dir}:${tag} ${docker_dir}/
             docker push ${DOCKERHUB_USER}/${docker_dir}
-          done      
+          done
+          
+workflows:
+  version: 2
+  
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+  
       
