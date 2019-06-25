@@ -4,8 +4,7 @@ RUN     apk add --no-cache --update git && \
         GOOS=linux GOARCH=amd64 go get github.com/stevenmatthewt/semantics github.com/tcnksm/ghr
 
 FROM    frolvlad/alpine-glibc:alpine-3.9_glibc-2.29
-RUN     apk add --no-cache --update git nodejs nodejs-npm openjdk8 curl nss bash && \
-        npm install -g appcenter-cli
+RUN     apk add --no-cache --update git openjdk8 curl nss bash ruby-bundler openssh-client
 COPY    --from=golang /go/bin/semantics /go/bin/ghr /usr/local/bin/
 
 ARG     sdk_zip=sdk-tools-linux-4333796.zip
