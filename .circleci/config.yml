@@ -7,7 +7,14 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: make push
+      - run: |
+          docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASS}
+          for d in */; do
+            docker_dir=${d::-1}
+            tag=$(cat ${docker_dir}/Dockerfile | grep VERSION= | cut -d'=' -f 2)_${CIRCLE_BUILD_NUM}
+            docker build -t ${DOCKERHUB_USER}/${docker_dir}:${tag} ${docker_dir}/
+            docker push ${DOCKERHUB_USER}/${docker_dir}
+          done
           
 workflows:
   version: 2
