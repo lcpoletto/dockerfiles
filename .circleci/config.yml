@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - apk add --update make
+      - run: apk add --update make
       - run: make push
 
 workflows:
