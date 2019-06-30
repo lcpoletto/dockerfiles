@@ -1,6 +1,6 @@
 CIRCLE_BUILD_NUM ?= 0
 
-docker_dirs := $(git diff --name-only HEAD~1..HEAD . | grep -v .circleci | grep "/" | cat)
+docker_dirs := $(git diff --name-only HEAD~1..HEAD . | grep -v .circleci | grep "/" | cat | cut -d'/' -f 1)
 docker_imgs := $(docker_dirs)
 
 .DEFAULT_GOAL: build
