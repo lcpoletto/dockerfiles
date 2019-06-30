@@ -23,4 +23,8 @@ $(docker_dirs):
 
 .PHONY: docker-login
 docker-login:
+ifdef CI
+	cat .dockerhub_pass | docker login --username ${DOCKERHUB_USER} --password-stdin
+else
 	docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASS}
+endif
