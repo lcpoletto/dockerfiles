@@ -14,7 +14,7 @@ push: docker-login build $(docker_imgs)
 .PHONY: $(docker_dirs)
 $(docker_dirs):
 	@echo "Building $@ image."
-	@tag=$(cat $@/Dockerfile | grep ARG | grep VERSION= | cut -d'=' -f 2)_${CIRCLE_BUILD_NUM} && \
+	@tag=$(cat $@/Dockerfile | grep ARG | grep CI_BUILD_VERSION= | cut -d'=' -f 2)_${CIRCLE_BUILD_NUM} && \
 		docker build -t ${DOCKERHUB_USER}/$@:$${tag} $@/
 
 .PHONY: $(docker_imgs)
