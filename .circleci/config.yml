@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: apk add --update make
+      - run: apk add --update make bash
       - run: echo "${DOCKERHUB_PASS}" >> .dockerhub_pass
       - run: make push
 
@@ -21,5 +21,3 @@ workflows:
             branches:
               only:
                 - master
-  
-      

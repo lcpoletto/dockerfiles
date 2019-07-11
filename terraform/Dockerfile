@@ -11,5 +11,5 @@ RUN     apk add --update --no-cache curl && \
 
 FROM    hashicorp/terraform:${CI_BUILD_VERSION}
 COPY    --from=builder /linux-amd64/helm /kubectl /usr/local/bin/
-RUN     apk add --update --no-cache git bash && \
+RUN     apk add --update --no-cache git bash jq && \
         helm init
